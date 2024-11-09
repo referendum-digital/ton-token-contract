@@ -1,4 +1,6 @@
 node_modules
 temp
 build
-tags
+dist
+.DS_Store
+.env

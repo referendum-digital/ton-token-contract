@@ -1,57 +1,30 @@
-import { Address, toNano } from 'ton-core';
-import { JettonMinter, JettonMinterContent, jettonContentToCell, jettonMinterConfigToCell } from '../wrappers/JettonMinter';
-import { compile, NetworkProvider, UIProvider} from '@ton-community/blueprint';
-import { promptAddress, promptBool, promptUrl } from '../wrappers/ui-utils';
-
-const formatUrl = "https://github.com/ton-blockchain/TEPs/blob/master/text/0064-token-data-standard.md#jetton-metadata-example-offchain";
-const exampleContent = {
-                          "name": "Sample Jetton",
-                          "description": "Sample of Jetton",
-                          "symbol": "JTN",
-                          "decimals": 0,
-                          "image": "https://www.svgrepo.com/download/483336/coin-vector.svg"
-                       };
-const urlPrompt = 'Please specify url pointing to jetton metadata(json):';
+import { Address, toNano } from '@ton/core';
+import { JettonMinter } from '../wrappers/JettonMinter';
+import { compile, NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
-    const ui       = provider.ui();
-    const sender   = provider.sender();
-    const adminPrompt = `Please specify admin address`;
-    ui.write(`Jetton deployer\nCurrent deployer onli supports off-chain format:${formatUrl}`);
+    const senderAddress = provider.sender()?.address;
+    if (!senderAddress) {
+        throw new Error('Sender address is undefined.');
+    }
 
-    let admin      = await promptAddress(adminPrompt, ui, sender.address);
-    ui.write(`Admin address:${admin}\n`);
-    let contentUrl = await promptUrl(urlPrompt, ui);
-    ui.write(`Jetton content url:${contentUrl}`);
+    const jettonMinter = provider.open(
+        JettonMinter.createFromConfig(
+            {
+                supply: toNano(0), // Enter the initial supply of the Jetton, **recommended to leave it as 0**
+                owner: senderAddress, // Enter the address of the owner of the Jetton or leave it as senderAddress
+                name: 'NewJetton', // Enter the name of the Jetton
+                symbol: 'NJET', // Enter the symbol of the Jetton
+                image: 'https://raw.githubusercontent.com/VopxTech/vopx/f43a7df686540cb88c93d009a588af39d97519bc/static/icons/Telegram.svg', // Enter the image of the Jetton
+                description: 'For testing and testing and testing...', // Enter the description of the Jetton
+            },
+            await compile('JettonMinter'),
+        ),
+    );
 
-    let dataCorrect = false;
-    do {
-        ui.write("Please verify data:\n")
-        ui.write(`Admin:${admin}\n\n`);
-        ui.write('Metadata url:' + contentUrl);
-        dataCorrect = await promptBool('Is everything ok?(y/n)', ['y','n'], ui);
-        if(!dataCorrect) {
-            const upd = await ui.choose('What do you want to update?', ['Admin', 'Url'], (c) => c);
+    await jettonMinter.sendDeploy(provider.sender(), toNano('0.25'));
 
-            if(upd == 'Admin') {
-                admin = await promptAddress(adminPrompt, ui, sender.address);
-            }
-            else {
-                contentUrl = await promptUrl(urlPrompt, ui);
-            }
-        }
+    await provider.waitForDeploy(jettonMinter.address);
 
-    } while(!dataCorrect);
-
-    const content = jettonContentToCell({type:1,uri:contentUrl});
-
-    const wallet_code = await compile('JettonWallet');
-
-    const minter  = JettonMinter.createFromConfig({admin,
-                                                  content,
-                                                  wallet_code,
-                                                  }, 
-                                                  await compile('JettonMinter'));
-
-    await provider.deploy(minter, toNano('0.05'));
+    console.log(`Deployed JettonMinter at ${jettonMinter.address}`);
 }

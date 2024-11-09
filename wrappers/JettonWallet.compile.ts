@@ -1,5 +1,6 @@
-import { CompilerConfig } from '@ton-community/blueprint';
+import { CompilerConfig } from '@ton/blueprint';
 
 export const compile: CompilerConfig = {
-    targets: ['contracts/jetton-wallet.func'],
+    lang: 'func',
+    targets: ['contracts/jetton_wallet.fc'],
 };

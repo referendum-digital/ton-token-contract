@@ -12,7 +12,7 @@ export async function run(provider: NetworkProvider) {
     }
 
     const jettonMinter = provider.open(
-        JettonMinter.createFromAddress(Address.parse('INSERT JETTON MINTER ADDRESS HERE')),
+        JettonMinter.createFromAddress(Address.parse('EQDhYDhWYNKjFMd-_Dw56Ha4yluPrZrn4GDajMdlrRUReLdV')),
     );
 
     const jettonData = await jettonMinter.getJettonData();

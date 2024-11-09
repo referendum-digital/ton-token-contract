@@ -13,10 +13,10 @@ export async function run(provider: NetworkProvider) {
             {
                 supply: toNano(0), // Enter the initial supply of the Jetton, **recommended to leave it as 0**
                 owner: senderAddress, // Enter the address of the owner of the Jetton or leave it as senderAddress
-                name: 'NewJetton', // Enter the name of the Jetton
-                symbol: 'NJET', // Enter the symbol of the Jetton
+                name: 'Votum', // Enter the name of the Jetton
+                symbol: 'VOTUM', // Enter the symbol of the Jetton
                 image: 'https://raw.githubusercontent.com/VopxTech/vopx/f43a7df686540cb88c93d009a588af39d97519bc/static/icons/Telegram.svg', // Enter the image of the Jetton
-                description: 'For testing and testing and testing...', // Enter the description of the Jetton
+                description: 'VOTUM tokens for Referendums', // Enter the description of the Jetton
             },
             await compile('JettonMinter'),
         ),

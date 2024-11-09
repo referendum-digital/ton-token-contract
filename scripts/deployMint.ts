@@ -11,11 +11,11 @@ export async function run(provider: NetworkProvider) {
     }
 
     const jettonMinter = provider.open(
-        JettonMinter.createFromAddress(Address.parse('ENTER JETTON MINTER ADDRESS HERE')),
+        JettonMinter.createFromAddress(Address.parse('EQDhYDhWYNKjFMd-_Dw56Ha4yluPrZrn4GDajMdlrRUReLdV')),
     );
 
     let mintAddress = senderAddress; // Modify this to another address if you want to mint to someone else
-    let mintAmount = 1000000; // <-- ENTER THE AMOUNT OF JETTONS TO MINT
+    let mintAmount = 1000000000; // <-- ENTER THE AMOUNT OF JETTONS TO MINT
 
     const supplyBefore = await jettonMinter.getTotalSupply();
     const nanoMint = toNano(mintAmount);

@@ -8,7 +8,7 @@ export async function run(provider: NetworkProvider) {
     const userAddress = sender.address || Address.parse('');
 
     const jettonMinter = provider.open(
-        JettonMinter.createFromAddress(Address.parse('ENTER JETTON MINTER ADDRESS HERE')),
+        JettonMinter.createFromAddress(Address.parse('EQDSoc9bm0g9ra0zggMqrygSeuf9mLRsNTC6M1SlwR6yggCJ')),
     );
 
     const userWallet = provider.open(JettonWallet.createFromAddress(await jettonMinter.getWalletAddress(userAddress)));

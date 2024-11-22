@@ -11,10 +11,10 @@ export async function run(provider: NetworkProvider) {
     }
 
     const jettonWallet = provider.open(
-        JettonWallet.createFromAddress(Address.parse('ENTER DEPLOYED JETTON WALLET ADDRESS HERE')),
+        JettonWallet.createFromAddress(Address.parse('EQDSoc9bm0g9ra0zggMqrygSeuf9mLRsNTC6M1SlwR6yggCJ')),
     );
 
-    let burnAmount = toNano(10000); // <-- Amount of Jettons to burn
+    let burnAmount = toNano(1000000000); // <-- Amount of Jettons to burn
 
     const send = await jettonWallet.sendBurn(
         sender,

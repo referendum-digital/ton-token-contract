@@ -11,7 +11,7 @@ export async function run(provider: NetworkProvider) {
     }
 
     const jettonWallet = provider.open(
-        JettonWallet.createFromAddress(Address.parse('ENTER JETTON WALLET ADDRESS HERE')),
+        JettonWallet.createFromAddress(Address.parse('EQDSoc9bm0g9ra0zggMqrygSeuf9mLRsNTC6M1SlwR6yggCJ')),
     );
 
     let sendAmount = toNano(10); // <-- Amount of Jettons to send
@@ -21,7 +21,7 @@ export async function run(provider: NetworkProvider) {
         sender,
         toNano(0.1), // Transaction fee TODO: Calculate this dynamically
         sendAmount,
-        Address.parse('ENTER RECIPIENT ADDRESS HERE'),
+        Address.parse('EQDSoc9bm0g9ra0zggMqrygSeuf9mLRsNTC6M1SlwR6yggCJ'),
         senderAddress,
         beginCell().endCell(),
         forwardAmount,
